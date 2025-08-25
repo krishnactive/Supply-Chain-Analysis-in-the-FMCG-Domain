@@ -1,0 +1,65 @@
+
+# Dataset Metadata – ABC Mart Supply Chain Analysis
+
+This file describes the columns and purpose of the tables used in ABC Mart’s supply‑chain analysis. The dataset is split into six CSV files.
+
+## dim_customers.csv
+
+| Column          | Type    | Description                                         |
+|-----------------|---------|-----------------------------------------------------|
+| `customer_id`   | int     | Unique identifier for each customer.                |
+| `customer_name` | string  | Name of the customer.                               |
+| `city`          | string  | City where the customer operates.                   |
+
+## dim_products.csv
+
+| Column        | Type    | Description                                         |
+|---------------|---------|-----------------------------------------------------|
+| `product_id`  | int     | Unique identifier for each product.                  |
+| `product_name`| string  | Descriptive name of the product.                    |
+| `category`    | string  | Category or class to which the product belongs.      |
+
+## dim_date.csv
+
+| Column   | Type    | Description                                                                            |
+|----------|---------|----------------------------------------------------------------------------------------|
+| `date`   | date    | Calendar date at the daily granularity.                                                |
+| `mmm_yy` | string  | Date formatted as Month–Year (e.g. `Jan–22`).                                         |
+| `week_no`| int     | ISO week number of the year corresponding to the date.                                 |
+
+## dim_targets_orders.csv
+
+| Column             | Type   | Description                                                                    |
+|--------------------|--------|--------------------------------------------------------------------------------|
+| `customer_id`      | int    | Unique identifier for each customer (foreign key to `dim_customers`).          |
+| `ontime_target_pct`| float  | Target on‑time delivery percentage for the customer (range 0–100).             |
+| `infull_target_pct`| float  | Target in‑full delivery percentage for the customer (range 0–100).             |
+| `otif_target_pct`  | float  | Target on‑time‑in‑full delivery percentage for the customer (range 0–100).     |
+
+## fact_order_lines.csv
+
+| Column                | Type    | Description                                                                              |
+|-----------------------|---------|------------------------------------------------------------------------------------------|
+| `order_id`            | int     | Unique identifier for each order.                                                        |
+| `order_placement_date`| date    | Date when the order was placed by the customer.                                          |
+| `customer_id`         | int     | Identifier of the customer placing the order (foreign key to `dim_customers`).           |
+| `product_id`          | int     | Identifier of the product ordered (foreign key to `dim_products`).                       |
+| `order_qty`           | int     | Quantity of product requested.                                                           |
+| `agreed_delivery_date`| date    | Promised delivery date agreed between ABC Mart and the customer.                       |
+| `actual_delivery_date`| date    | Actual date on which the order was delivered.                                            |
+| `delivered_qty`       | int     | Number of units actually delivered to the customer.                                      |
+
+## fact_orders_aggregate.csv
+
+| Column               | Type | Description                                                                                         |
+|----------------------|------|-----------------------------------------------------------------------------------------------------|
+| `order_id`           | int  | Unique identifier for each order.                                                                   |
+| `customer_id`        | int  | Identifier of the customer who placed the order.                                                    |
+| `order_placement_date`| date| Date when the order was placed.                                                                      |
+| `on_time`            | int  | Indicator (1 = delivered on or before the agreed date; 0 = delivered late).                        |
+| `in_full`            | int  | Indicator (1 = delivered in full quantity; 0 = delivered partially).                               |
+| `otif`               | int  | Indicator (1 = both on_time and in_full; 0 = either late or not in full quantity).                 |
+
+---
+
+These definitions provide a consistent naming convention, specify data types and clarify relationships between tables. Use these descriptions when interpreting the dataset or constructing your own queries and analyses.
